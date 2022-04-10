@@ -98,7 +98,7 @@ messages = [Message("spam rules", is_spam=True),
             Message("ham rules", is_spam=False),
             Message("hello ham", is_spam=False)]
 
-model = NaiveBayesClassifier(k=0.5)
+model = NaiveBayesClassifier(k=0.75)
 model.train(messages)
 
 assert model.tokens == {"spam", "ham", "rules", "hello"}
@@ -144,12 +144,22 @@ data: List[Message] = []
 # glob.glob returns every filename that matches the wildcarded path
 for filename in glob.glob(path):
     is_spam = "ham" not in filename
+    podeLer = False
 
-    # There are some garbage characters in the emails, the errors='ignore'
-    # skips them instead of raising an exception.
+# //////////////////////////////////////    
+# ler o arquivo após o Subject
+# //////////////////////////////////////
+
     with open(filename, errors='ignore') as email_file:
-        subject = " ".join(str(x).lower() for x in email_file)
-        data.append(Message(subject, is_spam))
+        for line in email_file:
+            
+            if line.startswith("Subject:"):
+                podeLer = True
+                
+            if podeLer:    
+                data.append(Message(line, is_spam))
+                #break  # done with this file
+
         
 random.seed(0)      # just so you get the same answers as me
 train_messages, test_messages = split_data(data, 0.50)
