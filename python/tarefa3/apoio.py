@@ -7,12 +7,17 @@ Created on Tue Apr  5 10:34:58 2022
 """
 
 import pandas as pd
+data = pd.read_json('/home/desktop/Documentos/biblia.json')
+biblia = pd.read_csv('/home/desktop/Documentos/biblia.csv')
+
+data.info()
+
 import nltk
 nltk.download('stopwords')
 from nltk.tokenize import RegexpTokenizer
 
 stop_words = nltk.corpus.stopwords.words('portuguese')
-data = pd.read_json('/home/desktop/Documentos/biblia.json')
+
 
 words = " ".join(str(x).lower() for x in data["texto"])
 
