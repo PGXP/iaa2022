@@ -12,6 +12,8 @@ biblia = pd.read_csv('/home/desktop/Documentos/biblia.csv')
 
 data.info()
 
+
+
 import nltk
 nltk.download('stopwords')
 from nltk.tokenize import RegexpTokenizer
