@@ -26,6 +26,7 @@ for frase in data["texto"][:30]:
 X_train, X_test, y_train, y_test = train_test_split(dataSSW, data["livro"], 
                                                     test_size=0.2, random_state=66)
 
+
 from sklearn.feature_extraction.text import CountVectorizer
 count_vect = CountVectorizer()
 X_train_counts = count_vect.fit_transform(X_train)
