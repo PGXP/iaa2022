@@ -26,14 +26,15 @@ public class NewMain {
         try {
             // load CSV
             CSVLoader loader = new CSVLoader();
-            loader.setSource(new File("/home/desktop/Documentos/produtosTeste.csv"));
+            loader.setFieldSeparator(";");
+            loader.setSource(new File("/home/desktop/Documentos/bibliaV0.csv"));
             Instances data = loader.getDataSet();
 
             // save ARFF
             ArffSaver saver = new ArffSaver();
             saver.setInstances(data);
-            saver.setFile(new File("/home/desktop/Documentos/produtosTeste.arff"));
-            saver.setDestination(new File("/home/desktop/Documentos/produtosTeste.arff"));
+            saver.setFile(new File("/home/desktop/Documentos/bibliaV0.arff"));
+            saver.setDestination(new File("/home/desktop/Documentos/bibliaV0.arff"));
             saver.writeBatch();
         } catch (IOException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
