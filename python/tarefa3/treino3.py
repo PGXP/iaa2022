@@ -5,43 +5,51 @@ Created on Sat Apr  9 10:16:26 2022
 
 @author: gladson
 """
-from nltk.tokenize import RegexpTokenizer
+
 from sklearn.model_selection import train_test_split
 import pandas as pd
-data = pd.read_json('/home/desktop/Documentos/biblia.json')
+data = pd.read_json('/home/desktop/Documentos/bibliaTeste.json')
 
 import nltk
 nltk.download('stopwords')
 stop_words = nltk.corpus.stopwords.words('portuguese')
-tokenizer = RegexpTokenizer(r'[A-z]\w*')
 
 dataSSW = []
 
-for frase in data["texto"][:30]:
-    tokens = tokenizer.tokenize(frase)
-    tokens_without_sw = [palavra for palavra in tokens if not palavra in stop_words]
-    words = " ".join(str(x).lower() for x in tokens_without_sw)
+for frase in data["texto"]:
+    words = ' '.join([palavra for palavra in frase.split() if not palavra.lower() in stop_words])
     dataSSW.append(words)
 
-X_train, X_test, y_train, y_test = train_test_split(dataSSW, data["livro"], 
-                                                    test_size=0.2, random_state=66)
+#X_train, X_test, y_train, y_test = train_test_split(dataSSW, data["livro"], test_size=0.2, random_state=7)
 
 
 from sklearn.feature_extraction.text import CountVectorizer
 count_vect = CountVectorizer()
-X_train_counts = count_vect.fit_transform(X_train)
+X_train_counts = count_vect.fit_transform(dataSSW)
 
 from sklearn.naive_bayes import MultinomialNB
-clf = MultinomialNB().fit(X_train_counts, y_train)
+clf = MultinomialNB().fit(X_train_counts, data["livro"])
 
-docs_new = ['Deus é amor', 'vingança']
+from sklearn.feature_extraction.text import TfidfTransformer
+tfidf_transformer = TfidfTransformer()
+X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+
+docs_new = ['Sê bendito, Senhor, para sempre', 'Pelos frutos das nossas jornadas!']
 X_new_counts = count_vect.transform(docs_new)
 X_new_tfidf = tfidf_transformer.transform(X_new_counts)
 
 predicted = clf.predict(X_new_tfidf)
 
 for doc, category in zip(docs_new, predicted):
-    print('%r => %s' % (doc, y_train))
+    print('%r => %s' % (doc, data["livro"]))
+    
+    
+    
+from sklearn import metrics
+print(metrics.classification_report(data["livro"], predicted,
+                                    data["livro"]))
+                                            
+metrics.confusion_matrix(data["livro"], predicted)
     
 from sklearn.pipeline import Pipeline
 text_clf = Pipeline([('vect', CountVectorizer()),
@@ -69,11 +77,7 @@ text_clf.fit(data["texto"], data["livro"])
 predicted = text_clf.predict(docs_test)
 np.mean(predicted == twenty_test.target)
 
-from sklearn import metrics
-print(metrics.classification_report(twenty_test.target, predicted,
-    target_names=twenty_test.target_names))
-                                        
-metrics.confusion_matrix(twenty_test.target, predicted)
+
 
 from sklearn.model_selection import GridSearchCV
 parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
