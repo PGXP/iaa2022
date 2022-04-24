@@ -6,7 +6,7 @@ Created on Sat Apr  9 10:16:26 2022
 @author: gladson
 """
 
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 import nltk
 from nltk.tokenize import RegexpTokenizer
 nltk.download('stopwords')
@@ -14,7 +14,7 @@ stop_words = nltk.corpus.stopwords.words('portuguese')
 tokenizer = RegexpTokenizer(r'[A-z]\w*')
 
 import pandas as pd
-data = pd.read_json('/home/desktop/Documentos/biblia.json')
+data = pd.read_json('/home/desktop/Documentos/bibliaV0.json')
 
 dataSSW = []
 
@@ -34,8 +34,11 @@ from sklearn.feature_extraction.text import TfidfTransformer
 tf_transformer = TfidfTransformer(use_idf=True).fit(X_train_counts)
 X_train_tf = tf_transformer.transform(X_train_counts)
 
-from sklearn.naive_bayes import MultinomialNB
-clf = MultinomialNB().fit(X_train_tf, data["livro"])
+#from sklearn.naive_bayes import MultinomialNB
+#clf = MultinomialNB().fit(X_train_tf, data["livro"])
+from sklearn.linear_model import SGDClassifier
+clf = SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, random_state=42, max_iter=5, tol=None)
+clf.fit(X_train_tf, data["livro"])
 
 docs_new = ['O meu combustível pra continuar', 'Jesus é a calmaria, o aconchego dos meus dias',
             'O meu alicerce pra não desistir', 'Não tá sendo fácil aqui, mas eu tenho que seguir',
