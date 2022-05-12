@@ -1,4 +1,5 @@
 produtos <- read.csv("~/Documentos/produtos.csv", sep=";")
+dolar <- read.csv("~/Documentos/dolar.csv", sep=";")
 
 --------------
 install.packages("plyr")
@@ -7,16 +8,18 @@ View(produtos)
 order(count(produtos, 'produto')$freq)
 --------------
   
-produtos210 <- produtos[which(produtos$produto == 210),names(produtos) %in% c("dia","valor")]
+produtos210 <- produtos[which(produtos$ano == 2016),names(produtos) %in% c("diaano","valor")]
 
-hist(produtos210$dia)
+hist(produtos210$diaano)
+hist(dolar$valor)
 
-proDia <- subset(produtos210, select = c("dia","valor"))
-proDia$dia <- as.factor(proDia$dia)
+proDia <- subset(produtos210, select = c("diaano","valor"))
+proDia$diaano <- as.factor(proDia$diaano)
 
 str(proDia)
 
-boxplot(proDia$valor~proDia$dia, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
+boxplot(proDia$valor~proDia$diaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
+boxplot(dolar$valor~dolar$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = dolar)
 
 summary(proDia)
 
