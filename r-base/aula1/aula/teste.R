@@ -7,18 +7,22 @@ library(plyr)
 View(produtos)
 order(count(produtos, 'produto')$freq)
 --------------
-  
-produtos210 <- produtos[which(produtos$ano == 2016),names(produtos) %in% c("diaano","valor")]
+ 
+produtos210 <- produtos[which(produtos$ano == 2014&produtos$produto==91),names(produtos) %in% c("semanaano","valor")]
+proDia <- subset(produtos210, select = c("semanaano","valor"))
+boxplot(proDia$valor~proDia$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
 
-hist(produtos210$diaano)
+produtos210 <- produtos[which(produtos$ano == 2014&produtos$produto==296&produtos$mercado==2&produtos$bairro==13),names(produtos) %in% c("semanaano","valor")]
+
+hist(produtos210$semanaano)
 hist(dolar$valor)
 
-proDia <- subset(produtos210, select = c("diaano","valor"))
+
 proDia$diaano <- as.factor(proDia$diaano)
 
 str(proDia)
 
-boxplot(proDia$valor~proDia$diaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
+boxplot(proDia$valor~proDia$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
 boxplot(dolar$valor~dolar$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = dolar)
 
 summary(proDia)
