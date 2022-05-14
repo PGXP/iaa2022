@@ -1,26 +1,33 @@
 produtos <- read.csv("~/Documentos/produtos.csv", sep=";")
 dolar <- read.csv("~/Documentos/dolar.csv", sep=";")
+clima <- read.csv("~/Documentos/clima.csv", sep=";")
+ipca <- read.csv("~/Documentos/ipca.csv", sep=";")
 
+summary(produtos)
 --------------
 install.packages("plyr")
+install.packages("ggplot2")
 library(plyr)
+library(ggplot2)
 View(produtos)
+View(ipca)
 order(count(produtos, 'produto')$freq)
 --------------
- 
-produtos210 <- produtos[which(produtos$ano == 2014&produtos$produto==91),names(produtos) %in% c("semanaano","valor")]
-proDia <- subset(produtos210, select = c("semanaano","valor"))
-boxplot(proDia$valor~proDia$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
 
-produtos210 <- produtos[which(produtos$ano == 2014&produtos$produto==296&produtos$mercado==2&produtos$bairro==13),names(produtos) %in% c("semanaano","valor")]
+clima2019 <- clima[which(clima$ano == 2014),names(clima)%in% c("semanaano","tempmin")]
+dolar2019 <- dolar[which(dolar$ano == 2014),names(dolar)%in% c("semanaano","valor")]
+produto210 <- produtos[which(produtos$produto==210&produtos$ano==2014),names(produtos) %in% c("semanaano","valor")]
 
-hist(produtos210$semanaano)
-hist(dolar$valor)
+boxplot(produto210$valor~produto210$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = produto210)
+boxplot(dolar2019$valor~dolar2019$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = dolar2019)
+boxplot(clima2019$tempmin~clima2019$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = clima2019)
 
 
-proDia$diaano <- as.factor(proDia$diaano)
+ggplot(produto210, aes(x=semanaano, y=valor) + geom_jitter())
 
-str(proDia)
+hist(produto210$semanaano)
+hist(dolar2019$semanaano)
+hist(clima2019$semanaano)
 
 boxplot(proDia$valor~proDia$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = proDia)
 boxplot(dolar$valor~dolar$semanaano, xlab = 'dia', ylab='valor', main='Tabela',data = dolar)
