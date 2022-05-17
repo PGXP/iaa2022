@@ -4,9 +4,11 @@ ESPECIALIZAÇÃO EM INTELIGÊNCIA ARTIFICIAL APLICADA 2022
 # Produtos
 
 ## Produto
-296  Tomate
-210  Creme Dental ( + Barato ) 90 GR
-91   Biscoito Recheado ( + Barato ) 130 GR 
+475  Tomate
+190  Picanha
+312  Cerveja
+
+
 ## Bairro
 13   Bom Retiro
 ## Mercado
