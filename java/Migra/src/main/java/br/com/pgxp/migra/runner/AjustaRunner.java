@@ -7,8 +7,12 @@ package br.com.pgxp.migra.runner;
 
 import br.com.pgxp.migra.dao.ExgrupoJpaController;
 import br.com.pgxp.migra.entity.Exgrupo;
+import static java.time.Duration.between;
+import java.time.Instant;
+import static java.time.Instant.now;
 import java.util.List;
 import java.util.logging.Level;
+import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 import javax.persistence.EntityManagerFactory;
@@ -22,7 +26,6 @@ public class AjustaRunner implements Runnable {
     private static final Logger LOG = getLogger(AjustaRunner.class.getName());
 
     private EntityManagerFactory emf;
-    private ExgrupoJpaController edao;
     private Integer id;
 
     /**
@@ -32,11 +35,15 @@ public class AjustaRunner implements Runnable {
     public void run() {
         try {
 
+            Instant start = now();
+
+            ExgrupoJpaController edao = new ExgrupoJpaController(emf);
+
             Exgrupo exgrupo = edao.findExgrupo(id);
 
             if (exgrupo.getValor() == null) {
 
-                String mercado = exgrupo.getMercado().split("\\s")[0];
+                String mercado = exgrupo.getMercado().split(" ")[0];
 
                 if (!mercado.isEmpty()) {
 
@@ -58,6 +65,8 @@ public class AjustaRunner implements Runnable {
                         exgrupo.setValor(lst.get(0).getValor());
                         edao.edit(exgrupo);
                         LOG.info(exgrupo.toString());
+                        Instant finish = now();
+                        LOG.log(INFO, "Ajusta {0} seg", new Object[]{between(start, finish).getNano()});
                     }
                 }
 
@@ -75,14 +84,6 @@ public class AjustaRunner implements Runnable {
 
     public void setEmf(EntityManagerFactory emf) {
         this.emf = emf;
-    }
-
-    public ExgrupoJpaController getEdao() {
-        return edao;
-    }
-
-    public void setEdao(ExgrupoJpaController edao) {
-        this.edao = edao;
     }
 
     public Integer getId() {

@@ -48,7 +48,6 @@ public class ExgrupoAjusta {
 
                 AjustaRunner ir = new AjustaRunner();
                 ir.setEmf(emf);
-                ir.setEdao(edao);
                 ir.setId(i);
                 executorGerador.execute(ir);
 
