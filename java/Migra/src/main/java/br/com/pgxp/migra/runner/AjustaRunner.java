@@ -38,7 +38,7 @@ public class AjustaRunner implements Runnable {
 
                 String mercado = exgrupo.getMercado().split("\\s")[0];
 
-                if (!mercado.isEmpty() && exgrupo.getValor() == null) {
+                if (!mercado.isEmpty()) {
 
                     List<Exgrupo> lst = edao.findTabelasMesmoDia(exgrupo.getAno(), exgrupo.getMes(), exgrupo.getDia(), mercado, exgrupo.getProduto());
 
