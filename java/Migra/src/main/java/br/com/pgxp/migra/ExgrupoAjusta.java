@@ -6,22 +6,11 @@
 package br.com.pgxp.migra;
 
 import br.com.pgxp.migra.dao.ExgrupoJpaController;
-import br.com.pgxp.migra.dao.LocalsJpaController;
-import br.com.pgxp.migra.dao.ProdutosJpaController;
-import br.com.pgxp.migra.entity.Exgrupo;
-import br.com.pgxp.migra.entity.Locals;
-import br.com.pgxp.migra.entity.Produtos;
 import br.com.pgxp.migra.runner.AjustaRunner;
-import br.com.pgxp.migra.runner.ExgrupoRunner;
 import static java.lang.Runtime.getRuntime;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import static java.time.Duration.between;
 import java.time.Instant;
 import static java.time.Instant.now;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutorService;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import java.util.concurrent.TimeUnit;

@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -164,7 +162,7 @@ public class Exgrupo implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.pgxp.migra.entity.Exgrupo[ id=" + id + " ]";
+        return "Exgrupo{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + '}';
     }
 
 }

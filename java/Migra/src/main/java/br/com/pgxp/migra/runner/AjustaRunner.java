@@ -6,18 +6,7 @@
 package br.com.pgxp.migra.runner;
 
 import br.com.pgxp.migra.dao.ExgrupoJpaController;
-import br.com.pgxp.migra.dao.LocalsJpaController;
-import br.com.pgxp.migra.dao.ProdutosJpaController;
-import br.com.pgxp.migra.dao.TabelasJpaController;
 import br.com.pgxp.migra.entity.Exgrupo;
-import br.com.pgxp.migra.entity.Locals;
-import br.com.pgxp.migra.entity.Produtos;
-import br.com.pgxp.migra.entity.Tabelas;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +38,7 @@ public class AjustaRunner implements Runnable {
 
                 String mercado = exgrupo.getMercado().split("\\s")[0];
 
-                if (!mercado.isEmpty()) {
+                if (!mercado.isEmpty() && exgrupo.getValor() == null) {
 
                     List<Exgrupo> lst = edao.findTabelasMesmoDia(exgrupo.getAno(), exgrupo.getMes(), exgrupo.getDia(), mercado, exgrupo.getProduto());
 
@@ -68,6 +57,7 @@ public class AjustaRunner implements Runnable {
                     if (!lst.isEmpty()) {
                         exgrupo.setValor(lst.get(0).getValor());
                         edao.edit(exgrupo);
+                        LOG.info(exgrupo.toString());
                     }
                 }
 
