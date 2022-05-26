@@ -53,6 +53,9 @@ public class Exgrupo implements Serializable {
     @Column(name = "valor")
     private Double valor;
 
+    @Column(name = "status")
+    private String status;
+
     public Exgrupo() {
     }
 
@@ -140,6 +143,14 @@ public class Exgrupo implements Serializable {
         this.mercado = mercado;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -162,7 +173,7 @@ public class Exgrupo implements Serializable {
 
     @Override
     public String toString() {
-        return "Exgrupo{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + '}';
+        return "Exgrupo{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + ", status=" + status + '}';
     }
 
 }

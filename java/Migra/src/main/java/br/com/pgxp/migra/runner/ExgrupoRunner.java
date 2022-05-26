@@ -41,6 +41,8 @@ public class ExgrupoRunner implements Runnable {
     public void run() {
         try {
 
+            Double valores = 0.0;
+            String status = "";
             Calendar cal = new GregorianCalendar();
             cal.setTime(date); // Give your own date
 
@@ -59,21 +61,144 @@ public class ExgrupoRunner implements Runnable {
             table.setMercado(locals.getNome());
             table.setProduto(produtos.getNome());
 
-            tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                    locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-
             if (tabalas.isEmpty()) {
-                tabalas = tdao.findTabelasUltimoValor(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                        locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "COLETADO";
             }
 
             if (tabalas.isEmpty()) {
-                tabalas = tdao.findTabelasProximoValor(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                        locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "LOCAL_SEMANAANO";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "LOCAL_30";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "LOCAL_60";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "LOCAL_90";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasLocalAno(cal.get(Calendar.YEAR),
+                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                status = "LOCAL_ANO";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                        locals.getIdlocal(), produtos.getIdproduto());
+                status = "FILIAL_DIA";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                        locals.getIdlocal(), produtos.getIdproduto());
+                status = "FILIAL_SEMANAANO";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                        locals.getIdlocal(), produtos.getIdproduto());
+                status = "FILIAL_30";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                        locals.getIdlocal(), produtos.getIdproduto());
+                status = "FILIAL_60";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                        locals.getIdlocal(), produtos.getIdproduto());
+                status = "FILIAL_90";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                        locals.getIdbairro(), produtos.getIdproduto());
+                status = "BAIRRO_DIA";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                        locals.getIdbairro(), produtos.getIdproduto());
+                status = "BAIRRO_SEMANA";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                        locals.getIdbairro(), produtos.getIdproduto());
+                status = "BAIRRO_30";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                        locals.getIdbairro(), produtos.getIdproduto());
+                status = "BAIRRO_60";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                        locals.getIdbairro(), produtos.getIdproduto());
+                status = "BAIRRO_90";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                        produtos.getIdproduto());
+                status = "CIDADE_DIA";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                        produtos.getIdproduto());
+                status = "CIDADE_SEMANA";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                        produtos.getIdproduto());
+                status = "CIDADE_30";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                        produtos.getIdproduto());
+                status = "CIDADE_60";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                        produtos.getIdproduto());
+                status = "CIDADE_90";
+            }
+
+            if (tabalas.isEmpty()) {
+                tabalas = tdao.findTabelasCidadeAno(cal.get(Calendar.YEAR), produtos.getIdproduto());
+                status = "CIDADE_ANO";
             }
 
             if (!tabalas.isEmpty()) {
-                table.setValor(tabalas.get(0).getValor());
+                for (Tabelas tabala : tabalas) {
+                    valores += tabala.getValor();
+                }
+                table.setValor(valores / tabalas.size());
+                table.setStatus(status);
+//                LOG.info(table.toString());
             }
 
             edao.edit(table);
