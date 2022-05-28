@@ -9,7 +9,7 @@ import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
-import br.com.pgxp.migra.runner.ExgrupoRunner;
+import br.com.pgxp.migra.runner.Grupo15Runner;
 import static java.lang.Runtime.getRuntime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,9 +33,9 @@ import javax.persistence.Persistence;
  *
  * @author desktop
  */
-public class ExgrupoMigra {
+public class Grupo15Migra {
 
-    private static final Logger LOG = getLogger(ExgrupoMigra.class.getName());
+    private static final Logger LOG = getLogger(Grupo15Migra.class.getName());
     private static final int MAX_THREADS = getRuntime().availableProcessors();
 
     /**
@@ -45,7 +45,7 @@ public class ExgrupoMigra {
 
         try {
 
-            LOG.log(INFO, "ExgrupoMigra init with {0} processors", MAX_THREADS);
+            LOG.log(INFO, "Grupo15Migra init with {0} processors", MAX_THREADS);
             Instant start = now();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("br.com.pgxp_Migra_jar_1.0.0PU");
             ExecutorService executorGerador = newFixedThreadPool(MAX_THREADS);
@@ -70,7 +70,7 @@ public class ExgrupoMigra {
                 for (Locals findLocalsEntity : ldao.findAll()) {
                     for (Produtos findProdutosEntity : pdao.findProdutosEntitiesByGrupo(15)) {
 
-                        ExgrupoRunner ir = new ExgrupoRunner();
+                        Grupo15Runner ir = new Grupo15Runner();
                         ir.setDate(date);
                         ir.setLocals(findLocalsEntity);
                         ir.setProdutos(findProdutosEntity);
@@ -91,7 +91,7 @@ public class ExgrupoMigra {
 
 //        emf.close();
             Instant finish = now();
-            LOG.log(INFO, "ExgrupoMigra {0} seg", new Object[]{between(start, finish).getSeconds()});
+            LOG.log(INFO, "Grupo15Migra {0} seg", new Object[]{between(start, finish).getSeconds()});
 
         } catch (ParseException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);

@@ -152,6 +152,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("idfilial", idfilial)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -169,6 +170,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("idfilial", idfilial)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -184,6 +186,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("idfilial", idfilial)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -200,6 +203,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("idfilial", idfilial)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -215,6 +219,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -230,6 +235,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -257,6 +263,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();

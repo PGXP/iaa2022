@@ -5,7 +5,7 @@
  */
 package br.com.pgxp.migra;
 
-import br.com.pgxp.migra.dao.ExgrupoJpaController;
+import br.com.pgxp.migra.dao.Grupo15JpaController;
 import br.com.pgxp.migra.runner.AjustaRunner;
 import static java.lang.Runtime.getRuntime;
 import static java.time.Duration.between;
@@ -25,9 +25,9 @@ import javax.persistence.Persistence;
  *
  * @author desktop
  */
-public class ExgrupoAjusta {
+public class Grupo15Ajusta {
 
-    private static final Logger LOG = getLogger(ExgrupoAjusta.class.getName());
+    private static final Logger LOG = getLogger(Grupo15Ajusta.class.getName());
     private static final int MAX_THREADS = getRuntime().availableProcessors();
 
     /**
@@ -37,14 +37,14 @@ public class ExgrupoAjusta {
 
         try {
 
-            LOG.log(INFO, "ExgrupoMigra init with {0} processors", MAX_THREADS);
+            LOG.log(INFO, "Grupo15Migra init with {0} processors", MAX_THREADS);
             Instant start = now();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("br.com.pgxp_Migra_jar_1.0.0PU");
             ExecutorService executorGerador = newFixedThreadPool(MAX_THREADS);
 
-            ExgrupoJpaController edao = new ExgrupoJpaController(emf);
+            Grupo15JpaController edao = new Grupo15JpaController(emf);
 
-            for (int i = 1; i <= edao.getExgrupoCount(); i++) {
+            for (int i = 1; i <= edao.getGrupo15Count(); i++) {
 
                 AjustaRunner ir = new AjustaRunner();
                 ir.setEmf(emf);
@@ -63,7 +63,7 @@ public class ExgrupoAjusta {
 
 //        emf.close();
             Instant finish = now();
-            LOG.log(INFO, "ExgrupoMigra {0} seg", new Object[]{between(start, finish).getSeconds()});
+            LOG.log(INFO, "Grupo15Migra {0} seg", new Object[]{between(start, finish).getSeconds()});
 
         } catch (Exception ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);

@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * @author desktop
  */
 @Entity
-@Table(name = "exgrupo")
-public class Exgrupo implements Serializable {
+@Table(name = "grupo15")
+public class Grupo15 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,10 +56,10 @@ public class Exgrupo implements Serializable {
     @Column(name = "status")
     private String status;
 
-    public Exgrupo() {
+    public Grupo15() {
     }
 
-    public Exgrupo(Integer id) {
+    public Grupo15(Integer id) {
         this.id = id;
     }
 
@@ -156,19 +156,6 @@ public class Exgrupo implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Exgrupo)) {
-            return false;
-        }
-        Exgrupo other = (Exgrupo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

@@ -5,9 +5,9 @@
  */
 package br.com.pgxp.migra.runner;
 
-import br.com.pgxp.migra.dao.ExgrupoJpaController;
+import br.com.pgxp.migra.dao.Grupo15JpaController;
 import br.com.pgxp.migra.dao.TabelasJpaController;
-import br.com.pgxp.migra.entity.Exgrupo;
+import br.com.pgxp.migra.entity.Grupo15;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
 import br.com.pgxp.migra.entity.Tabelas;
@@ -25,9 +25,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Serpro
  */
-public class ExgrupoRunner implements Runnable {
+public class Grupo15Runner implements Runnable {
 
-    private static final Logger LOG = getLogger(ExgrupoRunner.class.getName());
+    private static final Logger LOG = getLogger(Grupo15Runner.class.getName());
 
     private Date date;
     private Locals locals;
@@ -47,11 +47,11 @@ public class ExgrupoRunner implements Runnable {
             cal.setTime(date); // Give your own date
 
             TabelasJpaController tdao = new TabelasJpaController(emf);
-            ExgrupoJpaController edao = new ExgrupoJpaController(emf);
+            Grupo15JpaController edao = new Grupo15JpaController(emf);
 
             List<Tabelas> tabalas = new ArrayList<>();
 
-            Exgrupo table = new Exgrupo();
+            Grupo15 table = new Grupo15();
             table.setAno(cal.get(Calendar.YEAR));
             table.setMes(cal.get(Calendar.MONTH) + 1);
             table.setDia(cal.get(Calendar.DAY_OF_MONTH));
@@ -198,14 +198,13 @@ public class ExgrupoRunner implements Runnable {
                 }
                 table.setValor(valores / tabalas.size());
                 table.setStatus(status);
-//                LOG.info(table.toString());
             }
 
-            edao.edit(table);
+            edao.create(table);
 
-            //LOG.log(Level.INFO, "Work {0} -> {1} -> {2}", new Object[]{estacao.getCodigo().toString(), lista.size(), between(start, finish).getNano()});
+//            LOG.log(Level.INFO, "Work {0} -> {1} -> {2}", new Object[]{estacao.getCodigo().toString(), lista.size(), between(start, finish).getNano()});
         } catch (Exception ex) {
-            Logger.getLogger(ExgrupoRunner.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Grupo15Runner.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

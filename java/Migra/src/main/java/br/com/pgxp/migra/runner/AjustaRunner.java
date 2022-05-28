@@ -5,8 +5,9 @@
  */
 package br.com.pgxp.migra.runner;
 
-import br.com.pgxp.migra.dao.ExgrupoJpaController;
-import br.com.pgxp.migra.entity.Exgrupo;
+import br.com.pgxp.migra.dao.Grupo15JpaController;
+import br.com.pgxp.migra.entity.Grupo15;
+import br.com.pgxp.migra.entity.Grupo15;
 import static java.time.Duration.between;
 import java.time.Instant;
 import static java.time.Instant.now;
@@ -37,9 +38,9 @@ public class AjustaRunner implements Runnable {
 
             Instant start = now();
 
-            ExgrupoJpaController edao = new ExgrupoJpaController(emf);
+            Grupo15JpaController edao = new Grupo15JpaController(emf);
 
-            Exgrupo exgrupo = edao.findExgrupo(id);
+            Grupo15 exgrupo = edao.findGrupo15(id);
 
             if (exgrupo.getValor() == null) {
 
@@ -47,7 +48,7 @@ public class AjustaRunner implements Runnable {
 
                 if (!mercado.isEmpty()) {
 
-                    List<Exgrupo> lst = edao.findTabelasMesmoDia(exgrupo.getAno(), exgrupo.getMes(), exgrupo.getDia(), mercado, exgrupo.getProduto());
+                    List<Grupo15> lst = edao.findTabelasMesmoDia(exgrupo.getAno(), exgrupo.getMes(), exgrupo.getDia(), mercado, exgrupo.getProduto());
 
                     if (lst.isEmpty()) {
                         lst = edao.findTabelasMesmoMes(exgrupo.getAno(), exgrupo.getMes(), exgrupo.getDia(), mercado, exgrupo.getProduto());
