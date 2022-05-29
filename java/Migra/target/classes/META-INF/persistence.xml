@@ -13,15 +13,17 @@
         <properties>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="eclipselink.connection-pool.default.initial" value="1" />
-            <property name="eclipselink.connection-pool.node2.min" value="8"/>
-            <property name="eclipselink.connection-pool.node2.max" value="8"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.132.165.100:5432/feira"/>
-            <property name="eclipselink.connection-pool.node2.url" value="jdbc:postgresql://10.132.165.100:5432/feira"/>
             <property name="javax.persistence.jdbc.password" value="gl@ds0n"/>
-<!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/feira"/>
-            <property name="eclipselink.connection-pool.node2.url" value="jdbc:postgresql://localhost:5432/feira"/>
-            <property name="javax.persistence.jdbc.password" value="gladson"/>-->
+            <!--            <property name="eclipselink.connection-pool.default.initial" value="1" />
+            <property name="eclipselink.connection-pool.node2.min" value="8"/>
+            <property name="eclipselink.connection-pool.node2.max" value="8"/>-->
+            <!--            
+            <property name="eclipselink.connection-pool.node2.url" value="jdbc:postgresql://10.132.165.100:5432/feira"/>
+            <property name="javax.persistence.jdbc.password" value="gl@ds0n"/>-->
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/feira"/>-->
+            <!--<property name="eclipselink.connection-pool.node2.url" value="jdbc:postgresql://localhost:5432/feira"/>-->
+            
         </properties>
     </persistence-unit>
 </persistence>

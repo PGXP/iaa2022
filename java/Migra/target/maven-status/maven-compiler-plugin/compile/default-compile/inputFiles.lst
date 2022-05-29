@@ -20,6 +20,7 @@
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Dolar.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/entity/Locals.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/exceptions/PreexistingEntityException.java
+/home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Grupo15MigraSingle.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/LocalsJpaController.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/entity/Dolar.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Grupo15Ajusta.java

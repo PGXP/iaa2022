@@ -122,18 +122,18 @@ public class Grupo15JpaController implements Serializable {
     public List<Grupo15> findTabelasValida(Integer ano, Integer mes, Integer dia, String mercado, String produto) {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT c FROM Grupo15 c where c.dia = :dia and c.mes = :mes and c.ano = :ano and c.mercado = :mercado and c.produto = :produto", Grupo15.class)
+            return em.createQuery("SELECT c FROM Grupo15 c where c.dia = :dia and c.mes = :mes and c.ano = :ano and LOWER(c.mercado) = :mercado and LOWER(c.produto) = :produto", Grupo15.class)
                     .setParameter("dia", dia)
                     .setParameter("mes", mes)
                     .setParameter("ano", ano)
-                    .setParameter("mercado", mercado)
-                    .setParameter("produto", produto)
+                    .setParameter("mercado", mercado.toLowerCase())
+                    .setParameter("produto", produto.toLowerCase())
                     .getResultList();
         } finally {
             em.close();
         }
     }
-    
+
     public List<Grupo15> findTabelasMesmoDia(Integer ano, Integer mes, Integer dia, String mercado, String produto) {
         EntityManager em = getEntityManager();
         try {

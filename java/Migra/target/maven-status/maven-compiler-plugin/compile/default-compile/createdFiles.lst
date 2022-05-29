@@ -32,4 +32,5 @@ br/com/pgxp/migra/runner/Grupo15Runner.class
 br/com/pgxp/migra/dao/TabelasJpaController.class
 br/com/pgxp/migra/runner/AjustaRunner.class
 br/com/pgxp/migra/Grupo15Migra.class
+br/com/pgxp/migra/Grupo15MigraSingle.class
 br/com/pgxp/migra/Clima.class
