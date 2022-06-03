@@ -11,12 +11,16 @@ import br.com.pgxp.migra.entity.Grupo15;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
 import br.com.pgxp.migra.entity.Tabelas;
+import static java.time.Duration.between;
+import java.time.Instant;
+import static java.time.Instant.now;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
+import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 import javax.persistence.EntityManagerFactory;
@@ -41,13 +45,14 @@ public class Grupo15Runner implements Runnable {
     public void run() {
         try {
 
-            Double valores = 0.0;
-            String status = "";
             Calendar cal = new GregorianCalendar();
             cal.setTime(date); // Give your own date
 
             TabelasJpaController tdao = new TabelasJpaController(emf);
             Grupo15JpaController edao = new Grupo15JpaController(emf);
+
+            Double valores = 0.0;
+            String status = "";
 
             List<Tabelas> tabalas = new ArrayList<>();
 
@@ -201,6 +206,8 @@ public class Grupo15Runner implements Runnable {
             }
 
             edao.create(table);
+
+            LOG.log(INFO, "Grupo15Migra {0} ", new Object[]{table.toString()});
 
 //            LOG.log(Level.INFO, "Work {0} -> {1} -> {2}", new Object[]{estacao.getCodigo().toString(), lista.size(), between(start, finish).getNano()});
         } catch (Exception ex) {

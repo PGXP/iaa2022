@@ -5,6 +5,7 @@
  */
 package br.com.pgxp.migra;
 
+import br.com.pgxp.migra.dao.Grupo15JpaController;
 import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
 import br.com.pgxp.migra.entity.Locals;
@@ -52,47 +53,53 @@ public class Grupo15Migra {
 
             ProdutosJpaController pdao = new ProdutosJpaController(emf);
             LocalsJpaController ldao = new LocalsJpaController(emf);
+            Grupo15JpaController edao = new Grupo15JpaController(emf);
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = formatter.parse("2010-05-01");
-            Date endDate = formatter.parse("2020-03-30");
+            Date endDate = formatter.parse("2020-04-30");
 
             Calendar inicio = Calendar.getInstance();
             inicio.setTime(startDate);
             Calendar fim = Calendar.getInstance();
             fim.setTime(endDate);
 
-            for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
+            for (Locals locals : ldao.findAll()) {
+                for (Produtos produtos : pdao.findProdutosEntitiesByGrupo(15)) {
 
-                Calendar cal = new GregorianCalendar();
-                cal.setTime(date); // Give your own date
+                    for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
 
-                for (Locals findLocalsEntity : ldao.findAll()) {
-                    for (Produtos findProdutosEntity : pdao.findProdutosEntitiesByGrupo(15)) {
+                        Calendar cal = new GregorianCalendar();
+                        cal.setTime(date); // Give your own date
 
-                        Grupo15Runner ir = new Grupo15Runner();
-                        ir.setDate(date);
-                        ir.setLocals(findLocalsEntity);
-                        ir.setProdutos(findProdutosEntity);
-                        ir.setEmf(emf);
-                        executorGerador.execute(ir);
-
+                        if (edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome()).isEmpty()) {
+                            Grupo15Runner ir = new Grupo15Runner();
+                            ir.setDate(date);
+                            ir.setLocals(locals);
+                            ir.setProdutos(produtos);
+                            ir.setEmf(emf);
+                            executorGerador.execute(ir);
+                        }
                     }
+
+                    executorGerador.shutdown();
+
+                    try {
+                        executorGerador.awaitTermination(720, TimeUnit.MINUTES);
+                    } catch (InterruptedException ie) {
+                        LOG.severe(ie.getLocalizedMessage());
+                    }
+
+                    System.gc();
+                    Instant finish = now();
+                    LOG.log(INFO, "Grupo15Migra {0} seg {1} -> {2}", new Object[]{between(start, finish).getSeconds(), locals.getNome(), produtos.getNome()});
                 }
             }
 
-            executorGerador.shutdown();
-
-            try {
-                executorGerador.awaitTermination(720, TimeUnit.HOURS);
-            } catch (InterruptedException ie) {
-                LOG.severe(ie.getLocalizedMessage());
-            }
+            Instant finish = now();
+            LOG.log(INFO, "Grupo15Migra Final {0} seg", new Object[]{between(start, finish).getSeconds()});
 
 //        emf.close();
-            Instant finish = now();
-            LOG.log(INFO, "Grupo15Migra {0} seg", new Object[]{between(start, finish).getSeconds()});
-
         } catch (ParseException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
