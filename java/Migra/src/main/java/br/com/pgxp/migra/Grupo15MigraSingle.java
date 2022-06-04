@@ -60,162 +60,162 @@ public class Grupo15MigraSingle {
             Grupo15JpaController edao = new Grupo15JpaController(emf);
             TabelasJpaController tdao = new TabelasJpaController(emf);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date startDate = formatter.parse("2010-05-01");
-            Date endDate = formatter.parse("2020-04-30");
+            for (Produtos produtos : pdao.findProdutosEntitiesByGrupo(15)) {
+                for (Locals locals : ldao.findAll()) {
 
-            Calendar inicio = Calendar.getInstance();
-            inicio.setTime(startDate);
-            Calendar fim = Calendar.getInstance();
-            fim.setTime(endDate);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date startDate = formatter.parse("2010-05-01");
+                    Date endDate = formatter.parse("2020-04-30");
 
-            for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
+                    Calendar inicio = Calendar.getInstance();
+                    inicio.setTime(startDate);
+                    Calendar fim = Calendar.getInstance();
+                    fim.setTime(endDate);
 
-                Calendar cal = new GregorianCalendar();
-                cal.setTime(date); // Give your own date
-                ldao.findAll().forEach(locals -> {
-                    pdao.findProdutosEntitiesByGrupo(15).parallelStream().filter(produtos -> (edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome()).isEmpty())).map(produtos -> {
-                        Double valores = 0.0;
-                        String status = "";
-                        List<Tabelas> tabalas = new ArrayList<>();
-                        Grupo15 table = new Grupo15();
-                        table.setAno(cal.get(Calendar.YEAR));
-                        table.setMes(cal.get(Calendar.MONTH) + 1);
-                        table.setDia(cal.get(Calendar.DAY_OF_MONTH));
-                        table.setDiaano(cal.get(Calendar.DAY_OF_YEAR));
-                        table.setSemana(cal.get(Calendar.DAY_OF_WEEK));
-                        table.setSemanaano(cal.get(Calendar.WEEK_OF_YEAR));
-                        table.setMercado(locals.getNome());
-                        table.setProduto(produtos.getNome());
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "COLETADO";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "LOCAL_SEMANAANO";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "LOCAL_30";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "LOCAL_60";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "LOCAL_90";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasLocalAno(cal.get(Calendar.YEAR),
-                                    locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
-                            status = "LOCAL_ANO";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                                    locals.getIdlocal(), produtos.getIdproduto());
-                            status = "FILIAL_DIA";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
-                                    locals.getIdlocal(), produtos.getIdproduto());
-                            status = "FILIAL_SEMANAANO";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
-                                    locals.getIdlocal(), produtos.getIdproduto());
-                            status = "FILIAL_30";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
-                                    locals.getIdlocal(), produtos.getIdproduto());
-                            status = "FILIAL_60";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
-                                    locals.getIdlocal(), produtos.getIdproduto());
-                            status = "FILIAL_90";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                                    locals.getIdbairro(), produtos.getIdproduto());
-                            status = "BAIRRO_DIA";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
-                                    locals.getIdbairro(), produtos.getIdproduto());
-                            status = "BAIRRO_SEMANA";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
-                                    locals.getIdbairro(), produtos.getIdproduto());
-                            status = "BAIRRO_30";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
-                                    locals.getIdbairro(), produtos.getIdproduto());
-                            status = "BAIRRO_60";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
-                                    locals.getIdbairro(), produtos.getIdproduto());
-                            status = "BAIRRO_90";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
-                                    produtos.getIdproduto());
-                            status = "CIDADE_DIA";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
-                                    produtos.getIdproduto());
-                            status = "CIDADE_SEMANA";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
-                                    produtos.getIdproduto());
-                            status = "CIDADE_30";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
-                                    produtos.getIdproduto());
-                            status = "CIDADE_60";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
-                                    produtos.getIdproduto());
-                            status = "CIDADE_90";
-                        }
-                        if (tabalas.isEmpty()) {
-                            tabalas = tdao.findTabelasCidadeAno(cal.get(Calendar.YEAR), produtos.getIdproduto());
-                            status = "CIDADE_ANO";
-                        }
-                        if (!tabalas.isEmpty()) {
-                            for (Tabelas tabala : tabalas) {
-                                valores += tabala.getValor();
+                    for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
+
+                        Calendar cal = new GregorianCalendar();
+                        cal.setTime(date);
+
+                        if (edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome()).isEmpty()) {
+                            Double valores = 0.0;
+                            String status = "";
+                            List<Tabelas> tabalas = new ArrayList<>();
+                            Grupo15 table = new Grupo15();
+                            table.setAno(cal.get(Calendar.YEAR));
+                            table.setMes(cal.get(Calendar.MONTH) + 1);
+                            table.setDia(cal.get(Calendar.DAY_OF_MONTH));
+                            table.setDiaano(cal.get(Calendar.DAY_OF_YEAR));
+                            table.setSemana(cal.get(Calendar.DAY_OF_WEEK));
+                            table.setSemanaano(cal.get(Calendar.WEEK_OF_YEAR));
+                            table.setMercado(locals.getNome());
+                            table.setProduto(produtos.getNome());
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "COLETADO";
                             }
-                            table.setValor(valores / tabalas.size());
-                            table.setStatus(status);
-                        }
-                        return table;
-                    }).map(table -> {
-                        edao.create(table);
-                        return table;
-                    }).forEachOrdered(table -> {
-                        Instant finish = now();
-                        LOG.log(INFO, "Grupo15Migra {0} seg {1}", new Object[]{between(start, finish).getNano(), table.toString()});
-                    });
-                    Instant finish = now();
-                    LOG.log(INFO, "Grupo15Migra {0} seg {1}", new Object[]{between(start, finish).getSeconds(), locals.getNome()});
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "LOCAL_SEMANAANO";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "LOCAL_30";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "LOCAL_60";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "LOCAL_90";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasLocalAno(cal.get(Calendar.YEAR),
+                                        locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
+                                status = "LOCAL_ANO";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                                        locals.getIdlocal(), produtos.getIdproduto());
+                                status = "FILIAL_DIA";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasFilial(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                                        locals.getIdlocal(), produtos.getIdproduto());
+                                status = "FILIAL_SEMANAANO";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                                        locals.getIdlocal(), produtos.getIdproduto());
+                                status = "FILIAL_30";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                                        locals.getIdlocal(), produtos.getIdproduto());
+                                status = "FILIAL_60";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                                        locals.getIdlocal(), produtos.getIdproduto());
+                                status = "FILIAL_90";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                                        locals.getIdbairro(), produtos.getIdproduto());
+                                status = "BAIRRO_DIA";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasBairro(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                                        locals.getIdbairro(), produtos.getIdproduto());
+                                status = "BAIRRO_SEMANA";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                                        locals.getIdbairro(), produtos.getIdproduto());
+                                status = "BAIRRO_30";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                                        locals.getIdbairro(), produtos.getIdproduto());
+                                status = "BAIRRO_60";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                                        locals.getIdbairro(), produtos.getIdproduto());
+                                status = "BAIRRO_90";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
+                                        produtos.getIdproduto());
+                                status = "CIDADE_DIA";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidade(cal.get(Calendar.YEAR), cal.get(Calendar.WEEK_OF_YEAR),
+                                        produtos.getIdproduto());
+                                status = "CIDADE_SEMANA";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 30,
+                                        produtos.getIdproduto());
+                                status = "CIDADE_30";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 60,
+                                        produtos.getIdproduto());
+                                status = "CIDADE_60";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), 90,
+                                        produtos.getIdproduto());
+                                status = "CIDADE_90";
+                            }
+                            if (tabalas.isEmpty()) {
+                                tabalas = tdao.findTabelasCidadeAno(cal.get(Calendar.YEAR), produtos.getIdproduto());
+                                status = "CIDADE_ANO";
+                            }
+                            if (!tabalas.isEmpty()) {
+                                for (Tabelas tabala : tabalas) {
+                                    valores += tabala.getValor();
+                                }
+                                table.setValor(valores / tabalas.size());
+                                table.setStatus(status);
+                            }
 
-                });
-                System.gc();
+                            edao.create(table);
+
+                        }
+                    }
+                    Instant finish = now();
+                    LOG.log(INFO, "Grupo15Migra {0} seg {1} {2}", new Object[]{between(start, finish).getNano(), produtos.getNome(), locals.getNome()});
+
+                    System.gc();
+                }
 
             }
 

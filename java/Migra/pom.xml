@@ -12,7 +12,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>br.com.pgxp.migra.Grupo15MigraSingle</mainClass>
+                            <mainClass>br.com.pgxp.migra.Grupo15Migra</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

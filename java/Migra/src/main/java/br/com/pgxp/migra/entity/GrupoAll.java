@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * @author desktop
  */
 @Entity
-@Table(name = "grupo15")
-public class Grupo15 implements Serializable {
+@Table(name = "grupoAll")
+public class GrupoAll implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,10 +56,10 @@ public class Grupo15 implements Serializable {
     @Column(name = "status")
     private String status;
 
-    public Grupo15() {
+    public GrupoAll() {
     }
 
-    public Grupo15(Integer id) {
+    public GrupoAll(Integer id) {
         this.id = id;
     }
 
@@ -160,7 +160,7 @@ public class Grupo15 implements Serializable {
 
     @Override
     public String toString() {
-        return "Grupo15{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + ", status=" + status + '}';
+        return "Exgrupo{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + ", status=" + status + '}';
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package br.com.pgxp.migra;
 
-import br.com.pgxp.migra.dao.Grupo15JpaController;
+import br.com.pgxp.migra.dao.GrupoAllJpaController;
 import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
 import br.com.pgxp.migra.entity.Locals;
@@ -34,9 +34,9 @@ import javax.persistence.Persistence;
  *
  * @author desktop
  */
-public class Grupo15Migra {
+public class GrupoAllMigra {
 
-    private static final Logger LOG = getLogger(Grupo15Migra.class.getName());
+    private static final Logger LOG = getLogger(GrupoAllMigra.class.getName());
     private static final int MAX_THREADS = getRuntime().availableProcessors();
 
     /**
@@ -46,28 +46,27 @@ public class Grupo15Migra {
 
         try {
 
-            LOG.log(INFO, "Grupo15Migra init with {0} processors", MAX_THREADS);
+            LOG.log(INFO, "GrupoAllMigra init with {0} processors", MAX_THREADS);
             Instant start = now();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("br.com.pgxp_Migra_jar_1.0.0PU");
 
             ProdutosJpaController pdao = new ProdutosJpaController(emf);
             LocalsJpaController ldao = new LocalsJpaController(emf);
-            Grupo15JpaController edao = new Grupo15JpaController(emf);
+            GrupoAllJpaController edao = new GrupoAllJpaController(emf);
 
-            for (Produtos produtos : pdao.findProdutosEntitiesByGrupo(15)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = formatter.parse("2010-05-01");
+            Date endDate = formatter.parse("2020-04-30");
+
+            Calendar inicio = Calendar.getInstance();
+            inicio.setTime(startDate);
+            Calendar fim = Calendar.getInstance();
+            fim.setTime(endDate);
+
+            for (Produtos produtos : pdao.findProdutosEntities()) {
                 for (Locals locals : ldao.findAll()) {
 
                     ExecutorService executorGerador = newFixedThreadPool(MAX_THREADS);
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Date startDate = formatter.parse("2010-05-01");
-                    Date endDate = formatter.parse("2020-04-30");
-
-                    Calendar inicio = Calendar.getInstance();
-                    inicio.setTime(startDate);
-                    Calendar fim = Calendar.getInstance();
-                    fim.setTime(endDate);
-                    
                     for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
 
                         Calendar cal = new GregorianCalendar();
@@ -93,12 +92,12 @@ public class Grupo15Migra {
 
                     System.gc();
                     Instant finish = now();
-                    LOG.log(INFO, "Grupo15Migra {0} seg {1} -> {2}", new Object[]{between(start, finish).getSeconds(), produtos.getNome(), locals.getNome()});
+                    LOG.log(INFO, "GrupoAllMigra {0} seg {1} -> {2}", new Object[]{between(start, finish).getSeconds(), produtos.getNome(), locals.getNome()});
                 }
             }
 
             Instant finish = now();
-            LOG.log(INFO, "Grupo15Migra Final {0} seg", new Object[]{between(start, finish).getSeconds()});
+            LOG.log(INFO, "GrupoAllMigra Final {0} seg", new Object[]{between(start, finish).getSeconds()});
 
 //        emf.close();
         } catch (ParseException ex) {
