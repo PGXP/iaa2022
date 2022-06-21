@@ -163,7 +163,7 @@ public class TabelasJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano = :ano and c.idbairro = :idbairro and c.idfilial = :idfilial and c.idlocal = :idlocal and c.idproduto = :idproduto", Tabelas.class)
-                    .setParameter("dia", diaano)
+                    .setParameter("dia", diaano - qtde)
                     .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)
                     .setParameter("idbairro", idbairro)
@@ -230,7 +230,7 @@ public class TabelasJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano = :ano and c.idlocal = :idlocal and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
-                    .setParameter("dia", diaano)
+                    .setParameter("dia", diaano - qtde)
                     .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)
                     .setParameter("idlocal", idlocal)
@@ -249,6 +249,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idlocal", idlocal)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -279,6 +280,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idbairro", idbairro)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -293,6 +295,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idbairro", idbairro)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -303,7 +306,7 @@ public class TabelasJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano = :ano and c.idbairro = :idbairro and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
-                    .setParameter("dia", diaano)
+                    .setParameter("dia", diaano - qtde)
                     .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)
                     .setParameter("idbairro", idbairro)
@@ -321,6 +324,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("ano", ano)
                     .setParameter("idbairro", idbairro)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -335,6 +339,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("mes", mes)
                     .setParameter("ano", ano)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -348,6 +353,7 @@ public class TabelasJpaController implements Serializable {
                     .setParameter("semana", semana)
                     .setParameter("ano", ano)
                     .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
                     .getResultList();
         } finally {
             em.close();
@@ -358,7 +364,7 @@ public class TabelasJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano = :ano and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
-                    .setParameter("dia", diaano)
+                    .setParameter("dia", diaano - qtde)
                     .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)
                     .setParameter("idproduto", idproduto)
@@ -372,6 +378,21 @@ public class TabelasJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Tabelas c where c.ano = :ano and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
+                    .setParameter("ano", ano)
+                    .setParameter("idproduto", idproduto)
+                    .setMaxResults(1)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Tabelas> findTabelasCidadeTotal(Integer ano, Integer diaano, Integer qtde, Integer idproduto) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano <= :ano and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
+                    .setParameter("dia", diaano - qtde)
+                    .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)
                     .setParameter("idproduto", idproduto)
                     .getResultList();

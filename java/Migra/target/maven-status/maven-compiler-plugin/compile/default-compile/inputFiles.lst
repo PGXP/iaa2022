@@ -6,6 +6,7 @@
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/ClimaJpaController.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/entity/Grupo15.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/TabelasJpaController.java
+/home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/runner/Grupo15RunnerUpdate.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Grupo15Migra.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/entity/GrupoAll.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/DolarJpaController.java
@@ -13,7 +14,6 @@
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/exceptions/NonexistentEntityException.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Ipca.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/runner/AjustaRunner.java
-/home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/runner/Grupo15Runner.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/entity/Bairros.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/exceptions/IllegalOrphanException.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/ProdutosJpaController.java
@@ -28,5 +28,6 @@
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/BairrosJpaController.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/runner/GrupoAllRunner.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/dao/GrupoAllJpaController.java
+/home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/runner/Grupo15RunnerCreate.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/Clima.java
 /home/desktop/NetBeansProjects/iaa2022/java/Migra/src/main/java/br/com/pgxp/migra/GrupoAllMigra.java

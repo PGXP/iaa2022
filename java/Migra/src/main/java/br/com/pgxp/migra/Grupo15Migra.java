@@ -8,9 +8,11 @@ package br.com.pgxp.migra;
 import br.com.pgxp.migra.dao.Grupo15JpaController;
 import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
+import br.com.pgxp.migra.entity.Grupo15;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
-import br.com.pgxp.migra.runner.Grupo15Runner;
+import br.com.pgxp.migra.runner.Grupo15RunnerCreate;
+import br.com.pgxp.migra.runner.Grupo15RunnerUpdate;
 import static java.lang.Runtime.getRuntime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,7 @@ import static java.time.Instant.now;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import java.util.concurrent.TimeUnit;
@@ -67,19 +70,31 @@ public class Grupo15Migra {
                     inicio.setTime(startDate);
                     Calendar fim = Calendar.getInstance();
                     fim.setTime(endDate);
-                    
+
                     for (Date date = inicio.getTime(); inicio.before(fim); inicio.add(Calendar.DATE, 1), date = inicio.getTime()) {
 
                         Calendar cal = new GregorianCalendar();
-                        cal.setTime(date); // Give your own date
+                        cal.setTime(date);
+                        List<Grupo15> grps = edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome());
 
-                        if (edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome()).isEmpty()) {
-                            Grupo15Runner ir = new Grupo15Runner();
+                        if (grps.isEmpty()) {
+                            Grupo15RunnerCreate ir = new Grupo15RunnerCreate();
                             ir.setDate(date);
                             ir.setLocals(locals);
                             ir.setProdutos(produtos);
                             ir.setEmf(emf);
+                            ir.setTable(new Grupo15());
                             executorGerador.execute(ir);
+                        } else {
+                            if (grps.get(0).getValor() != null) {
+                                Grupo15RunnerUpdate ir = new Grupo15RunnerUpdate();
+                                ir.setDate(date);
+                                ir.setLocals(locals);
+                                ir.setProdutos(produtos);
+                                ir.setEmf(emf);
+                                ir.setTable(grps.get(0));
+                                executorGerador.execute(ir);
+                            }
                         }
                     }
 

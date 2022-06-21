@@ -13,7 +13,7 @@ import br.com.pgxp.migra.entity.Grupo15;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
 import br.com.pgxp.migra.entity.Tabelas;
-import br.com.pgxp.migra.runner.Grupo15Runner;
+
 import static java.lang.Runtime.getRuntime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

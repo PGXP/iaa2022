@@ -1,5 +1,6 @@
 br/com/pgxp/migra/dao/ProdutosJpaController.class
 br/com/pgxp/migra/App.class
+br/com/pgxp/migra/runner/Grupo15RunnerCreate.class
 br/com/pgxp/migra/entity/Bairros_.class
 br/com/pgxp/migra/runner/GrupoAllRunner.class
 br/com/pgxp/migra/entity/Grupo15_.class
@@ -19,6 +20,7 @@ br/com/pgxp/migra/Dolar.class
 br/com/pgxp/migra/dao/IpcaJpaController.class
 br/com/pgxp/migra/entity/Locals_.class
 br/com/pgxp/migra/entity/Grupo15.class
+br/com/pgxp/migra/runner/Grupo15RunnerUpdate.class
 br/com/pgxp/migra/entity/Produtos_.class
 br/com/pgxp/migra/entity/Clima.class
 br/com/pgxp/migra/entity/Dolar_.class
@@ -33,7 +35,6 @@ br/com/pgxp/migra/entity/Locals.class
 br/com/pgxp/migra/dao/GrupoAllJpaController.class
 br/com/pgxp/migra/entity/Produtos.class
 br/com/pgxp/migra/dao/exceptions/NonexistentEntityException.class
-br/com/pgxp/migra/runner/Grupo15Runner.class
 br/com/pgxp/migra/dao/TabelasJpaController.class
 br/com/pgxp/migra/runner/AjustaRunner.class
 br/com/pgxp/migra/Grupo15Migra.class

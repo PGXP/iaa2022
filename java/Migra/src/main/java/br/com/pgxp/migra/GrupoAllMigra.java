@@ -10,7 +10,7 @@ import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
-import br.com.pgxp.migra.runner.Grupo15Runner;
+//import br.com.pgxp.migra.runner.Grupo15Runner;
 import static java.lang.Runtime.getRuntime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,12 +73,12 @@ public class GrupoAllMigra {
                         cal.setTime(date); // Give your own date
 
                         if (edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome()).isEmpty()) {
-                            Grupo15Runner ir = new Grupo15Runner();
-                            ir.setDate(date);
-                            ir.setLocals(locals);
-                            ir.setProdutos(produtos);
-                            ir.setEmf(emf);
-                            executorGerador.execute(ir);
+//                            Grupo15Runner ir = new Grupo15Runner();
+//                            ir.setDate(date);
+//                            ir.setLocals(locals);
+//                            ir.setProdutos(produtos);
+//                            ir.setEmf(emf);
+//                            executorGerador.execute(ir);
                         }
                     }
 
