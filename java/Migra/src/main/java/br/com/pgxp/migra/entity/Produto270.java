@@ -171,7 +171,19 @@ public class Produto270 implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto270{" + "id=" + id + ", ano=" + ano + ", mes=" + mes + ", dia=" + dia + ", semana=" + semana + ", semanaano=" + semanaano + ", diaano=" + diaano + ", mercado=" + mercado + ", produto=" + produto + ", valor=" + valor + ", status=" + status + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Produto270{");
+        sb.append("ano=").append(ano);
+        sb.append(", mes=").append(mes);
+        sb.append(", dia=").append(dia);
+        sb.append(", mercado=").append(mercado);
+        sb.append(", bairro=").append(bairro);
+        sb.append(", valor=").append(valor);
+        sb.append(", status=").append(status);
+        sb.append('}');
+        return sb.toString();
     }
+
+
 
 }
