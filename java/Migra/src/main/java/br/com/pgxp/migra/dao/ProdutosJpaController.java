@@ -110,7 +110,7 @@ public class ProdutosJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public List<Produtos> findProdutosEntities(int maxResults, int firstResult) {
         return findProdutosEntities(false, maxResults, firstResult);
     }
