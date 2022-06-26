@@ -5,14 +5,14 @@
  */
 package br.com.pgxp.migra;
 
-import br.com.pgxp.migra.dao.Grupo15JpaController;
+import br.com.pgxp.migra.dao.Produto270JpaController;
 import br.com.pgxp.migra.dao.LocalsJpaController;
 import br.com.pgxp.migra.dao.ProdutosJpaController;
-import br.com.pgxp.migra.entity.Grupo15;
+import br.com.pgxp.migra.entity.Produto270;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
-import br.com.pgxp.migra.runner.Grupo15RunnerCreate;
-import br.com.pgxp.migra.runner.Grupo15RunnerUpdate;
+import br.com.pgxp.migra.runner.Produto270RunnerCreate;
+import br.com.pgxp.migra.runner.Produto270RunnerUpdate;
 import static java.lang.Runtime.getRuntime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,9 +37,9 @@ import javax.persistence.Persistence;
  *
  * @author desktop
  */
-public class Grupo15Migra {
+public class Produto270Migra {
 
-    private static final Logger LOG = getLogger(Grupo15Migra.class.getName());
+    private static final Logger LOG = getLogger(Produto270Migra.class.getName());
     private static final int MAX_THREADS = getRuntime().availableProcessors();
 
     /**
@@ -49,13 +49,13 @@ public class Grupo15Migra {
 
         try {
 
-            LOG.log(INFO, "Grupo15Migra init with {0} processors", MAX_THREADS);
+            LOG.log(INFO, "Produto270Migra init with {0} processors", MAX_THREADS);
             Instant start = now();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("br.com.pgxp_Migra_jar_1.0.0PU");
 
             ProdutosJpaController pdao = new ProdutosJpaController(emf);
             LocalsJpaController ldao = new LocalsJpaController(emf);
-            Grupo15JpaController edao = new Grupo15JpaController(emf);
+            Produto270JpaController edao = new Produto270JpaController(emf);
 
 //            for (Produtos produtos : pdao.findProdutos(262)) {
             Produtos produtos = pdao.findProdutos(270);
@@ -65,7 +65,7 @@ public class Grupo15Migra {
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date startDate = formatter.parse("2010-05-01");
-                Date endDate = formatter.parse("2020-04-30");
+                Date endDate = formatter.parse("2020-05-01");
 
                 Calendar inicio = Calendar.getInstance();
                 inicio.setTime(startDate);
@@ -76,19 +76,19 @@ public class Grupo15Migra {
 
                     Calendar cal = new GregorianCalendar();
                     cal.setTime(date);
-                    List<Grupo15> grps = edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome());
+                    List<Produto270> grps = edao.findTabelasValida(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), locals.getNome(), produtos.getNome());
 
                     if (grps.isEmpty()) {
-                        Grupo15RunnerCreate ir = new Grupo15RunnerCreate();
+                        Produto270RunnerCreate ir = new Produto270RunnerCreate();
                         ir.setDate(date);
                         ir.setLocals(locals);
                         ir.setProdutos(produtos);
                         ir.setEmf(emf);
-                        ir.setTable(new Grupo15());
+                        ir.setTable(new Produto270());
                         executorGerador.execute(ir);
                     } else {
 //                        if (grps.get(0).getValor() == null) {
-                            Grupo15RunnerUpdate ir = new Grupo15RunnerUpdate();
+                            Produto270RunnerUpdate ir = new Produto270RunnerUpdate();
                             ir.setDate(date);
                             ir.setLocals(locals);
                             ir.setProdutos(produtos);
@@ -109,11 +109,11 @@ public class Grupo15Migra {
 
                 System.gc();
                 Instant finish = now();
-                LOG.log(INFO, "Grupo15Migra {0} seg {1} -> {2}", new Object[]{between(start, finish).getSeconds(), produtos.getNome(), locals.getNome()});
+                LOG.log(INFO, "Produto270Migra {0} seg {1} -> {2}", new Object[]{between(start, finish).getSeconds(), produtos.getNome(), locals.getNome()});
             }
 
             Instant finish = now();
-            LOG.log(INFO, "Grupo15Migra Final {0} seg", new Object[]{between(start, finish).getSeconds()});
+            LOG.log(INFO, "Produto270Migra Final {0} seg", new Object[]{between(start, finish).getSeconds()});
 
 //        emf.close();
         } catch (ParseException ex) {

@@ -390,7 +390,7 @@ public class TabelasJpaController implements Serializable {
     public List<Tabelas> findTabelasCidadeTotal(Integer ano, Integer diaano, Integer qtde, Integer idproduto) {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano <= :ano and c.idproduto = :idproduto order by c.ano, c.mes, c.dia", Tabelas.class)
+            return em.createQuery("SELECT c FROM Tabelas c where c.diaano >= :dia and c.diaano <= :qtde and c.ano <= :ano and c.idproduto = :idproduto order by c.ano desc, c.mes, c.dia", Tabelas.class)
                     .setParameter("dia", diaano - qtde)
                     .setParameter("qtde", diaano + qtde)
                     .setParameter("ano", ano)

@@ -72,7 +72,7 @@ public class Grupo15RunnerCreate implements Runnable {
                 status = "COLETADO";
             }
 
-            for (int i = 0; i <= 350; i++) {
+            for (int i = 0; i <= 370; i++) {
                 if (tabalas.isEmpty()) {
                     tabalas = tdao.findTabelasLocal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), i,
                             locals.getIdbairro(), locals.getIdfilial(), locals.getIdlocal(), produtos.getIdproduto());
@@ -81,7 +81,7 @@ public class Grupo15RunnerCreate implements Runnable {
 
             }
 
-            for (int i = 0; i <= 350; i++) {
+            for (int i = 0; i <= 370; i++) {
                 if (tabalas.isEmpty()) {
                     tabalas = tdao.findTabelasFilialQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), i,
                             locals.getIdlocal(), produtos.getIdproduto());
@@ -89,7 +89,7 @@ public class Grupo15RunnerCreate implements Runnable {
                 }
             }
 
-            for (int i = 0; i <= 350; i++) {
+            for (int i = 0; i <= 370; i++) {
                 if (tabalas.isEmpty()) {
                     tabalas = tdao.findTabelasBairroQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), i,
                             locals.getIdbairro(), produtos.getIdproduto());
@@ -97,7 +97,7 @@ public class Grupo15RunnerCreate implements Runnable {
                 }
             }
 
-            for (int i = 0; i <= 350; i++) {
+            for (int i = 0; i <= 370; i++) {
                 if (tabalas.isEmpty()) {
                     tabalas = tdao.findTabelasCidadeQt(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), i,
                             produtos.getIdproduto());
@@ -105,7 +105,7 @@ public class Grupo15RunnerCreate implements Runnable {
                 }
             }
 
-            for (int i = 0; i <= 350; i++) {
+            for (int i = 0; i <= 370; i++) {
                 if (tabalas.isEmpty()) {
                     tabalas = tdao.findTabelasCidadeTotal(cal.get(Calendar.YEAR), cal.get(Calendar.DAY_OF_YEAR), i,
                             produtos.getIdproduto());

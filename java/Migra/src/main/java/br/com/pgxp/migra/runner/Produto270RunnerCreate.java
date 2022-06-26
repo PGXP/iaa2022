@@ -5,9 +5,10 @@
  */
 package br.com.pgxp.migra.runner;
 
-import br.com.pgxp.migra.dao.Grupo15JpaController;
+import br.com.pgxp.migra.dao.BairrosJpaController;
+import br.com.pgxp.migra.dao.Produto270JpaController;
 import br.com.pgxp.migra.dao.TabelasJpaController;
-import br.com.pgxp.migra.entity.Grupo15;
+import br.com.pgxp.migra.entity.Produto270;
 import br.com.pgxp.migra.entity.Locals;
 import br.com.pgxp.migra.entity.Produtos;
 import br.com.pgxp.migra.entity.Tabelas;
@@ -29,15 +30,15 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Serpro
  */
-public class Grupo15RunnerUpdate implements Runnable {
+public class Produto270RunnerCreate implements Runnable {
 
-    private static final Logger LOG = getLogger(Grupo15RunnerUpdate.class.getName());
+    private static final Logger LOG = getLogger(Produto270RunnerCreate.class.getName());
 
     private Date date;
     private Locals locals;
     private Produtos produtos;
     private EntityManagerFactory emf;
-    private Grupo15 table;
+    private Produto270 table;
 
     /**
      *
@@ -50,12 +51,23 @@ public class Grupo15RunnerUpdate implements Runnable {
             cal.setTime(date); // Give your own date
 
             TabelasJpaController tdao = new TabelasJpaController(emf);
-            Grupo15JpaController edao = new Grupo15JpaController(emf);
+            Produto270JpaController edao = new Produto270JpaController(emf);
+            BairrosJpaController bdao = new BairrosJpaController(emf);
 
             Double valores = 0.0;
             String status = "";
 
             List<Tabelas> tabalas = new ArrayList<>();
+
+            table.setAno(cal.get(Calendar.YEAR));
+            table.setMes(cal.get(Calendar.MONTH) + 1);
+            table.setDia(cal.get(Calendar.DAY_OF_MONTH));
+            table.setDiaano(cal.get(Calendar.DAY_OF_YEAR));
+            table.setSemana(cal.get(Calendar.DAY_OF_WEEK));
+            table.setSemanaano(cal.get(Calendar.WEEK_OF_YEAR));
+            table.setMercado(locals.getNome());
+            table.setBairro(bdao.findBairros(locals.getIdbairro()).getNome());
+            table.setProduto(produtos.getNome());
 
             if (tabalas.isEmpty()) {
                 tabalas = tdao.findTabelas(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH),
@@ -112,13 +124,14 @@ public class Grupo15RunnerUpdate implements Runnable {
                 table.setStatus(status);
             }
 
-            edao.edit(table);
+            edao.create(table);
 
-            LOG.log(INFO, "Grupo15 Update {0} ", new Object[]{table.toString()});
+            LOG.log(INFO, "Produto270 Create {0} ", new Object[]{table.toString()});
 
         } catch (Exception ex) {
-            Logger.getLogger(Grupo15RunnerUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Produto270RunnerCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public Date getDate() {
@@ -153,11 +166,11 @@ public class Grupo15RunnerUpdate implements Runnable {
         this.emf = emf;
     }
 
-    public Grupo15 getTable() {
+    public Produto270 getTable() {
         return table;
     }
 
-    public void setTable(Grupo15 table) {
+    public void setTable(Produto270 table) {
         this.table = table;
     }
 
